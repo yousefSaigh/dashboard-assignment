@@ -1,0 +1,12 @@
+.coverage/
+.vscode/
+.gitattributes
+.gitignore
+test-results.trx
+yarn.lock
+**/lib/**
+**/lib-esm/**
+/packages/**/lib/**
+/packages/**/lib-esm/**
+semantic-overrides
+**/node_modules
