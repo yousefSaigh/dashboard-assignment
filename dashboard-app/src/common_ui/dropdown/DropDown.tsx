@@ -6,8 +6,8 @@ import { SelectOption } from '../../common_types';
 
 interface SelectProps {
     options: SelectOption[];
-    value?: OptionTypeBase | null;
-    handleSelectDropDownValue: (value: OptionTypeBase | null) => void;
+    currentlySelectedValue?: OptionTypeBase | null;
+    handleSelectDropDownValue: (value: SelectOption | null) => void;
     placeholder?: React.ReactNode;
 }
 export const DropDownArrowDiv = styled.div`
@@ -72,12 +72,15 @@ const customSelectorStyle = {
     }),
 };
 export const DropDown: React.FunctionComponent<SelectProps> = (props: SelectProps) => {
-    const { options, value, placeholder, handleSelectDropDownValue } = props;
+    const { options, currentlySelectedValue, placeholder, handleSelectDropDownValue } = props;
 
     function onInputChange(inputValue: OptionTypeBase | null, { action }: ActionMeta<OptionTypeBase>): void {
         switch (action) {
             case 'select-option':
-                handleSelectDropDownValue && handleSelectDropDownValue(inputValue);
+                if (inputValue && inputValue.label && inputValue.value) {
+                    handleSelectDropDownValue &&
+                        handleSelectDropDownValue({ value: inputValue.value, label: inputValue.label });
+                }
                 return;
             default:
                 return;
@@ -92,7 +95,7 @@ export const DropDown: React.FunctionComponent<SelectProps> = (props: SelectProp
                 onChange={onInputChange}
                 options={options}
                 styles={customSelectorStyle}
-                value={value}
+                value={currentlySelectedValue}
                 placeholder={placeholder}
             />
         </div>

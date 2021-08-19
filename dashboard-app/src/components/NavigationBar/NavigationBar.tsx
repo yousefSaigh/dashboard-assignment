@@ -1,24 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { StyledLink } from '../../common_ui';
-import * as constants from '../../constants';
+import { NavigationBarItem } from './NavigationBarItem';
+import { NavigationMenu } from '../../common_types';
+
+interface NavigationBarProps {
+    navigationMenus: NavigationMenu[];
+}
 
 const NavigationBarLayout = styled.div`
     justify-content: center;
     display: flex;
     flex-flow: row nowrap;
 `;
-export const NavigationBar = () => {
+export const NavigationBar: React.FunctionComponent<NavigationBarProps> = (
+    props: React.PropsWithChildren<NavigationBarProps>,
+) => {
+    const { navigationMenus } = props;
     return (
         <NavigationBarLayout>
-            <StyledLink exact activeStyle={{ color: 'lightblue' }} to={constants.HomeDashBoardPath}>
-                Home
-            </StyledLink>
-            <StyledLink exact activeStyle={{ color: 'lightblue' }} to={constants.NonPersistentDropDownPath}>
-                Non Persistent demo
-            </StyledLink>
-        
+            {navigationMenus.map((menu: NavigationMenu, index: number) => {
+                return <NavigationBarItem key={index} navigationMenu={menu} />;
+            })}
         </NavigationBarLayout>
     );
 };
