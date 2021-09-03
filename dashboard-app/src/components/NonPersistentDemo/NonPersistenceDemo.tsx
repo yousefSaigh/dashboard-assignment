@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 import { SelectOption } from '../../common_types';
-import { DropDown } from '../../common_ui';
 import { useViewContext } from '../DataPersistence';
-import { ScreenButtons } from './screenComponents';
+import { FetchData } from '../FetchData/FetchData';
+import { LoopingComponent } from '../LoopingComponent';
+import { Actions } from '../../module/actions';
+import { nonPersistentValue } from '../../module/selectors';
 
 interface NonPersistenceDemoProps {}
 
@@ -20,9 +23,32 @@ export const NonPersistenceDemo: React.FunctionComponent<NonPersistenceDemoProps
     props: React.PropsWithChildren<NonPersistenceDemoProps>,
 ) => {
     const context = useViewContext();
+    const dispatch = useDispatch();
+    const [init, setInit] = useState<boolean>(true);
+    const nonPersistentSelectedValue = context?.nonPersistentValue || null;
+    const nonPersistentDropDownOptions = context?.nonPersistentDropDownOptions || null;
+    const nonPersistentDropDownOptionsLoading = context?.nonPersistentDropDownOptionsLoading || false;
 
-    const dropDownOptions = context?.nonPersistentDropDownOptions || [];
-    const currentlySelectedValue = context?.nonPersistentValue || null;
+    // useEffect(() => {
+    //     if (init && !nonPersistentDropDownOptions) {
+    //         dispatch(Actions.updateNonPersistentDropDownRequestParameters({ shouldReturnNull: false }));
+    //         setInit(false);
+    //     }
+    //     return () => {
+    //         dispatch(Actions.updateNonPersistentDropDownRequestParameters({ shouldReturnNull: true }));
+    //     };
+    // }, [, nonPersistentDropDownOptions]);
+
+    const handleNonPersistentDropDownOptionsLoadingUpdate = (param: boolean): void => {
+        // context && context.handleNonPersistentDropDownOptionsLoadingUpdate(param);
+    };
+
+    const handleSaveNonPersistentDropDownOptions = (param: SelectOption[] | null) => {
+        // context && context.handleSaveNonPersistentDropDownOptions(param);
+    };
+    const handleNonPersistentDropDownDemoFetchButton = (param: boolean) => {
+        context && context.handleNonPersistentDropDownDemoFetchButton(param);
+    };
 
     const handleSelectDropDownValue = (param: SelectOption | null) => {
         context && context.handleSaveNonPersistentDropDownValue(param);
@@ -31,12 +57,16 @@ export const NonPersistenceDemo: React.FunctionComponent<NonPersistenceDemoProps
     return (
         <ComponentLayout>
             Non Persistent Demo
-            <DropDown
-                options={dropDownOptions}
-                currentlySelectedValue={currentlySelectedValue}
+            <FetchData
+                handleNonPersistentDropDownDemoFetchButton={handleNonPersistentDropDownDemoFetchButton}
+                currentlySelectedValue={nonPersistentSelectedValue}
+                dropDownOptions={nonPersistentDropDownOptions}
+                handleSaveDropDownOptions={handleSaveNonPersistentDropDownOptions}
                 handleSelectDropDownValue={handleSelectDropDownValue}
+                dropDownOptionsLoading={nonPersistentDropDownOptionsLoading}
+                handleDropDownOptionsLoadingUpdate={handleNonPersistentDropDownOptionsLoadingUpdate}
             />
-            <ScreenButtons handleFetchButtonClick={() => {}} handleFetchNullButtonClick={() => {}} />
+            <LoopingComponent />
         </ComponentLayout>
     );
 };
