@@ -6,18 +6,16 @@ import { FetchingStatus } from '../../../common_ui/FetchingStatus/FetchingStatus
 import { ScreenButtons } from '../screenComponents';
 
 interface ConnectedDropDownDataFetcherProps {
-    firstDropDownOptions: SelectOption[];
+    handleConnectedDropDownFetchButton: (status: boolean) => void;
+    // handleConnectedDropDownFetchNullButton: (status: boolean) => void;
+    firstDropDownOptions: SelectOption[] | null;
     secondDropDownOptions: SelectOption[];
-    handleSaveFirstDropDownOptions: (param: SelectOption[] | null) => void;
-    handleSaveSecondDropDownOptions: (param: SelectOption[] | null) => void;
     firstDropDownCurrentlySelectedValue: SelectOption | null;
     secondDropDownCurrentlySelectedValue: SelectOption | null;
     handleSelectFirstDropDownValue: (selectedValue: SelectOption | null) => void;
     handleSelectSecondDropDownValue: (selectedValue: SelectOption | null) => void;
     firstDropDownOptionsLoading: boolean;
-    handleFirstDropDownOptionsLoadingUpdate: (status: boolean) => void;
     secondDropDownOptionsLoading: boolean;
-    handleSecondDropDownOptionsLoadingUpdate: (status: boolean) => void;
 }
 
 const ComponentLayout = styled.div`
@@ -34,120 +32,56 @@ export const ConnectedDropDownDataFetcher: React.FunctionComponent<ConnectedDrop
     props: React.PropsWithChildren<ConnectedDropDownDataFetcherProps>,
 ) => {
     const {
+        handleConnectedDropDownFetchButton,
+        // handleConnectedDropDownFetchNullButton,
         firstDropDownOptions,
         secondDropDownOptions,
         handleSelectFirstDropDownValue,
         handleSelectSecondDropDownValue,
-        handleSaveFirstDropDownOptions,
-        handleSaveSecondDropDownOptions,
+
         firstDropDownOptionsLoading,
-        handleFirstDropDownOptionsLoadingUpdate,
         secondDropDownOptionsLoading,
-        handleSecondDropDownOptionsLoadingUpdate,
+
         firstDropDownCurrentlySelectedValue,
         secondDropDownCurrentlySelectedValue,
     } = props;
 
-    const [fetching, setFetching] = useState<boolean>(false);
-    const [firstDropDownSelected, setFirstDropDownSelected] = useState<boolean>(false);
-
-    const handleChangeFetchingStatus = (newStatus: boolean): void => {
-        setFetching(newStatus);
-    };
-
-    const handleSetFirstDropDownSelected = (newStatus: boolean): void => {
-        setFirstDropDownSelected(newStatus);
-    };
-
-    const handleChangeFirstLoadingStatus = (newStatus: boolean): void => {
-        handleFirstDropDownOptionsLoadingUpdate(newStatus);
-    };
-    const handleChangeSecondLoadingStatus = (newStatus: boolean): void => {
-        handleSecondDropDownOptionsLoadingUpdate(newStatus);
-    };
-
-    async function fetchDropDownOptions() {
-        setTimeout(() => {
-            handleSaveFirstDropDownOptions(firstDropDownOptions);
-            handleChangeFirstLoadingStatus(false);
-            handleChangeFetchingStatus(false);
-        }, 2000);
-    }
-
-    async function fetchSecondDropDownOptions() {
-        setTimeout(() => {
-            if (firstDropDownSelected) {
-                handleSaveSecondDropDownOptions(secondDropDownOptions);
-                handleChangeSecondLoadingStatus(false);
-            }
-        }, 2000);
-    }
-
-    useEffect(() => {
-        handleChangeFirstLoadingStatus(true);
-        fetchDropDownOptions();
-
-        return () => {
-            // handleSelectingFirstDropDownValue(null);
-            handleSaveFirstDropDownOptions([]);
-        };
-    }, [firstDropDownOptions]);
-
-    useEffect(() => {
-        if (firstDropDownSelected) {
-            handleChangeSecondLoadingStatus(true);
-            fetchSecondDropDownOptions();
-        }
-
-        return () => {
-            // handleSelectingSecondDropDownValue(null);
-            handleSaveSecondDropDownOptions([]);
-        };
-    }, [secondDropDownOptions]);
-
     const handleSelectingFirstDropDownValue = (param: SelectOption | null): void => {
         handleSelectFirstDropDownValue(param);
-        handleSetFirstDropDownSelected(true);
     };
     const handleSelectingSecondDropDownValue = (param: SelectOption | null): void => {
         handleSelectSecondDropDownValue(param);
-        handleSetFirstDropDownSelected(true);
     };
 
     const handleFetchButtonClick = () => {
-        handleChangeFetchingStatus(true);
-        fetchDropDownOptions();
+        handleConnectedDropDownFetchButton(false);
     };
     const handleFetchNullButtonClick = () => {
-        handleChangeFetchingStatus(true);
-        handleSelectingFirstDropDownValue(null);
-        handleSetFirstDropDownSelected(false);
+        handleConnectedDropDownFetchButton(true);
     };
     return (
         <ComponentLayout>
             {firstDropDownOptionsLoading ? (
                 <LoadingStatus />
-            ) : fetching ? (
-                <FetchingStatus />
-            ) : (
+            ) : firstDropDownOptions ? (
                 <DropDown
                     options={firstDropDownOptions}
                     currentlySelectedValue={firstDropDownCurrentlySelectedValue}
                     handleSelectDropDownValue={handleSelectingFirstDropDownValue}
                 />
-            )}
-            {firstDropDownSelected ? (
-                secondDropDownOptionsLoading ? (
-                    <LoadingStatus />
-                ) : (
-                    <DropDown
-                        options={secondDropDownOptions}
-                        currentlySelectedValue={secondDropDownCurrentlySelectedValue}
-                        handleSelectDropDownValue={handleSelectingSecondDropDownValue}
-                    />
-                )
             ) : (
-                <p>First Drop Down has Not Been Selected</p>
+                <p>no Options</p>
+            )}
+            {returnProperComponentForSecondDropDown(
+                firstDropDownCurrentlySelectedValue,
+                secondDropDownOptionsLoading,
+                <LoadingStatus />,
+                <DropDown
+                    options={secondDropDownOptions}
+                    currentlySelectedValue={secondDropDownCurrentlySelectedValue}
+                    handleSelectDropDownValue={handleSelectingSecondDropDownValue}
+                />,
+                <p>First Drop Down has Not Been Selected</p>,
             )}
             <ScreenButtons
                 handleFetchButtonClick={handleFetchButtonClick}
@@ -156,3 +90,21 @@ export const ConnectedDropDownDataFetcher: React.FunctionComponent<ConnectedDrop
         </ComponentLayout>
     );
 };
+
+function returnProperComponentForSecondDropDown(
+    firstDropDownCurrentlySelectedValue: SelectOption | null,
+    secondDropDownOptionsLoading: boolean,
+    loadingStatusComponent: JSX.Element,
+    dropdownComponent: JSX.Element,
+    noDataComponent: JSX.Element,
+): JSX.Element {
+    if (firstDropDownCurrentlySelectedValue) {
+        if (secondDropDownOptionsLoading) {
+            return loadingStatusComponent;
+        } else {
+            return dropdownComponent;
+        }
+    } else {
+        return noDataComponent;
+    }
+}

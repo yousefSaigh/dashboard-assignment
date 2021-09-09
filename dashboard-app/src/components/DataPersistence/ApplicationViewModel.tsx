@@ -37,18 +37,18 @@ export const DataPersistence: React.FunctionComponent<DataPersistenceProps> = (
     const dispatch = useDispatch();
 
     const nonPersistentDropDownRequestParameters = useSelector(selectors.nonPersistentDropDownRequestParameters);
+    const connectedDropDownRequestParameters = useSelector(selectors.connectedDropDownRequestParameters);
+    const secondConnectedDropDownRequestParameters = useSelector(selectors.secondConnectedDropDownRequestParameters);
 
     const loopingNumberValue = useSelector(selectors.loopingNumberValue);
 
     const nonPersistentDropDownOptions = useSelector(selectors.fetchDropDownOptions);
     const nonPersistentValue = useSelector(selectors.nonPersistentValue);
     const nonPersistentDropDownOptionsLoading = useSelector(selectors.fetchDropDownOptionsLoading);
-    const nonPersistentDropDownOptionsResponse = useSelector(selectors.fetchDropDownOptionsDataSelector);
-
-    console.log('..', nonPersistentDropDownOptionsResponse);
 
     const firstConnectedDropDownValue = useSelector(selectors.firstConnectedDropDownValue);
-    const firstConnectedDropDownOptions = useSelector(selectors.firstConnectedDropDownOptions);
+    const firstConnectedDropDownOptions = useSelector(selectors.fetchConnectedDropDownOptions);
+
     const firstConnectedDropDownOptionsLoading = useSelector(selectors.firstConnectedDropDownOptionsLoading);
 
     const secondConnectedDropDownValue = useSelector(selectors.secondConnectedDropDownValue);
@@ -68,25 +68,18 @@ export const DataPersistence: React.FunctionComponent<DataPersistenceProps> = (
         const request = { ...nonPersistentDropDownRequestParameters, shouldReturnNull: status };
         dispatch(Actions.updateNonPersistentDropDownRequestParameters(request));
     };
-    const handleFirstConnectedDropDownOptionsLoadingUpdate = (status: boolean): void => {
-        dispatch(Actions.setFirstConnectedDropDownOptionsLoading(status));
-    };
-    const handleSecondConnectedDropDownOptionsLoadingUpdate = (status: boolean): void => {
-        dispatch(Actions.setSecondConnectedDropDownOptionsLoading(status));
-    };
 
-    const handleFetchNonPersistentDropDownOptions = (params: FetchDropDownOptionsParameters) => {
-        // dispatch(Actions.saveNonPersistentDropDownOptions(params));
+    const handleConnectedDropDownFetchButton = (status: boolean): void => {
+        const request = { ...connectedDropDownRequestParameters, shouldReturnNull: status };
+        dispatch(Actions.updateConnectedDropDownRequestParameters(request));
+    };
+    const handleSecondConnectedDropDownFetch = (status: boolean): void => {
+        const request = { ...secondConnectedDropDownRequestParameters, shouldReturnNull: status };
+        dispatch(Actions.updateSecondConnectedDropDownRequestParameters(request));
     };
 
     const handleSaveNonPersistentDropDownValue = (param: SelectOption | null) => {
         dispatch(Actions.saveNonPersistentDropDownValue(param));
-    };
-    const handleSaveFirstConnectedDropDownOptions = (param: SelectOption[] | null) => {
-        dispatch(Actions.saveFirstConnectedDropDownOptions);
-    };
-    const handleSaveSecondConnectedDropDownOptions = (param: SelectOption[] | null) => {
-        dispatch(Actions.saveSecondConnectedDropDownOptions(param));
     };
 
     const handleSaveFirstConnectedDropDownValue = (param: SelectOption | null) => {
@@ -103,26 +96,23 @@ export const DataPersistence: React.FunctionComponent<DataPersistenceProps> = (
 
     return (
         <ViewContextProvider
+            handleSecondConnectedDropDownFetch={handleSecondConnectedDropDownFetch}
+            handleConnectedDropDownFetchButton={handleConnectedDropDownFetchButton}
             handleNonPersistentDropDownDemoFetchButton={handleNonPersistentDropDownDemoFetchButton}
             loopingNumberValue={loopingNumberValue}
             handleSaveLoopedValue={handleSaveLoopedValue}
             nonPersistentDropDownOptions={nonPersistentDropDownOptions}
-            handleFetchNonPersistentDropDownOptions={handleFetchNonPersistentDropDownOptions}
             nonPersistentValue={nonPersistentValue}
             handleSaveNonPersistentDropDownValue={handleSaveNonPersistentDropDownValue}
             nonPersistentDropDownOptionsLoading={nonPersistentDropDownOptionsLoading}
             firstConnectedDropDownValue={firstConnectedDropDownValue}
             handleSaveFirstConnectedDropDownValue={handleSaveFirstConnectedDropDownValue}
             firstConnectedDropDownOptions={firstConnectedDropDownOptions}
-            handleSaveFirstConnectedDropDownOptions={handleSaveFirstConnectedDropDownOptions}
             firstConnectedDropDownOptionsLoading={firstConnectedDropDownOptionsLoading}
-            handleFirstConnectedDropDownOptionsLoading={handleFirstConnectedDropDownOptionsLoadingUpdate}
             secondConnectedDropDownOptions={secondConnectedDropDownOptions}
-            handleSaveSecondConnectedDropDownOptions={handleSaveSecondConnectedDropDownOptions}
             secondConnectedDropDownValue={secondConnectedDropDownValue}
             handleSaveSecondConnectedDropDownValue={handleSaveSecondConnectedDropDownValue}
             secondConnectedDropDownOptionsLoading={secondConnectedDropDownOptionsLoading}
-            handleSecondConnectedDropDownOptionsLoading={handleSecondConnectedDropDownOptionsLoadingUpdate}
             textColor={textColor}
             handleChangeTextColor={handleChangeTextColor}
             backGroundColor={backGroundColor}

@@ -1,5 +1,4 @@
 import { takeEvery, put, call } from '@redux-saga/core/effects';
-import { AnyAction } from 'redux';
 import * as types from '../types';
 import * as API from '../api';
 import { ActionWithPayload, createSuccessAction } from '../../common_utilities';

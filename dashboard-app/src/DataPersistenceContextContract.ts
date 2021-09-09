@@ -6,9 +6,10 @@ export interface DataPersistenceContextContract {
     handleSaveLoopedValue: (value: number) => void;
 
     nonPersistentDropDownOptions: SelectOption[] | null;
-    handleFetchNonPersistentDropDownOptions: (params: FetchDropDownOptionsParameters) => void;
 
     handleNonPersistentDropDownDemoFetchButton: (status: boolean) => void;
+    handleConnectedDropDownFetchButton: (status: boolean) => void;
+    handleSecondConnectedDropDownFetch: (status: boolean) => void;
 
     nonPersistentValue: SelectOption | null;
     handleSaveNonPersistentDropDownValue: (param: SelectOption | null) => void;
@@ -19,19 +20,15 @@ export interface DataPersistenceContextContract {
     handleSaveFirstConnectedDropDownValue: (param: SelectOption | null) => void;
 
     firstConnectedDropDownOptions: SelectOption[] | null;
-    handleSaveFirstConnectedDropDownOptions: (param: SelectOption[] | null) => void;
 
     secondConnectedDropDownValue: SelectOption | null;
     handleSaveSecondConnectedDropDownValue: (param: SelectOption | null) => void;
 
     secondConnectedDropDownOptions: SelectOption[] | null;
-    handleSaveSecondConnectedDropDownOptions: (param: SelectOption[] | null) => void;
 
     firstConnectedDropDownOptionsLoading: boolean;
-    handleFirstConnectedDropDownOptionsLoading: (status: boolean) => void;
 
     secondConnectedDropDownOptionsLoading: boolean;
-    handleSecondConnectedDropDownOptionsLoading: (status: boolean) => void;
 
     textColor: string;
     handleChangeTextColor: (value: string) => void;

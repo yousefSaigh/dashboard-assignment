@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { SelectOption } from '../../common_types';
-import { FirstConnectedDropDownOptions, SecondConnectedDropDownOptions } from '../../constants';
 import { useViewContext } from '../DataPersistence';
 import { FetchData } from '../FetchData';
 import { ScreenButtons } from '../NonPersistentDemo/screenComponents';
@@ -27,43 +26,35 @@ export const ConnectedDropDowns: React.FunctionComponent<ConnectedDropDownsProps
     const firstConnectedDropDownSelectedValue = context?.firstConnectedDropDownValue || null;
     const secondConnectedDropDownSelectedValue = context?.secondConnectedDropDownValue || null;
 
+    const firstConnectedDropDownOptions = context?.firstConnectedDropDownOptions || null;
+    const secondConnectedDropDownOptions = context?.secondConnectedDropDownOptions || [];
+
     const firstConnectedDropDownOptionsLoading = context?.firstConnectedDropDownOptionsLoading || false;
     const secondConnectedDropDownOptionsLoading = context?.secondConnectedDropDownOptionsLoading || false;
 
-    const handleSaveFirstDropDownOptions = (param: SelectOption[] | null) => {
-        context && context.handleSaveFirstConnectedDropDownOptions(param);
-    };
-    const handleSaveSecondDropDownOptions = (param: SelectOption[] | null) => {
-        context && context.handleSaveSecondConnectedDropDownOptions(param);
-    };
     const handleSelectFirstDropDownValue = (param: SelectOption | null) => {
         context && context.handleSaveFirstConnectedDropDownValue(param);
     };
     const handleSelectSecondDropDownValue = (param: SelectOption | null) => {
         context && context.handleSaveSecondConnectedDropDownValue(param);
     };
-    const handleFirstDropDownOptionsLoadingUpdate = (param: boolean): void => {
-        context && context.handleFirstConnectedDropDownOptionsLoading(param);
-    };
-    const handleSecondDropDownOptionsLoadingUpdate = (param: boolean): void => {
-        context && context.handleSecondConnectedDropDownOptionsLoading(param);
+
+    const handleConnectedDropDownFetchButton = (param: boolean) => {
+        context && context.handleConnectedDropDownFetchButton(param);
     };
 
     return (
         <ComponentLayout>
             <ConnectedDropDownDataFetcher
-                firstDropDownOptions={FirstConnectedDropDownOptions}
+                handleConnectedDropDownFetchButton={handleConnectedDropDownFetchButton}
+                firstDropDownOptions={firstConnectedDropDownOptions}
                 firstDropDownCurrentlySelectedValue={firstConnectedDropDownSelectedValue}
-                handleSaveFirstDropDownOptions={handleSaveFirstDropDownOptions}
                 handleSelectFirstDropDownValue={handleSelectFirstDropDownValue}
                 firstDropDownOptionsLoading={firstConnectedDropDownOptionsLoading}
-                handleFirstDropDownOptionsLoadingUpdate={handleFirstDropDownOptionsLoadingUpdate}
-                secondDropDownOptions={SecondConnectedDropDownOptions}
-                handleSaveSecondDropDownOptions={handleSaveSecondDropDownOptions}
+                secondDropDownOptions={secondConnectedDropDownOptions}
                 handleSelectSecondDropDownValue={handleSelectSecondDropDownValue}
                 secondDropDownCurrentlySelectedValue={secondConnectedDropDownSelectedValue}
                 secondDropDownOptionsLoading={secondConnectedDropDownOptionsLoading}
-                handleSecondDropDownOptionsLoadingUpdate={handleSecondDropDownOptionsLoadingUpdate}
             />
         </ComponentLayout>
     );

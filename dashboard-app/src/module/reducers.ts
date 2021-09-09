@@ -7,13 +7,13 @@ export const initialState: types.ModuleLocalStore = {
     nonPersistentValue: null,
     nonPersistentDropDownRequestParameters: { shouldReturnNull: false },
 
+    connectedDropDownRequestParameters: { shouldReturnNull: false },
+    connectedSecondDropDownRequestParameters: { shouldReturnNull: true, selectedColor: '' },
+
     firstConnectedDropDownValue: null,
-    firstConnectedDropDownOptions: null,
     firstConnectedDropDownOptionsLoading: false,
 
     secondConnectedDropDownValue: null,
-    secondConnectedDropDownOptions: null,
-    secondConnectedDropDownOptionsLoading: false,
 
     aboutPageTextColor: 'black',
     aboutPageTextBackground: 'white',
@@ -37,6 +37,19 @@ export default {
         return { nonPersistentDropDownRequestParameters: action.payload };
     },
 
+    [types.UPDATE_CONNECTED_DROPDOWN_OPTIONS_REQUEST_PARAMETERS]: (
+        state: types.ModuleLocalStore,
+        action: AnyAction,
+    ) => {
+        return { connectedDropDownRequestParameters: action.payload };
+    },
+    [types.UPDATE_SECOND_CONNECTED_DROPDOWN_OPTIONS_REQUEST_PARAMETERS]: (
+        state: types.ModuleLocalStore,
+        action: AnyAction,
+    ) => {
+        return { connectedSecondDropDownRequestParameters: action.payload };
+    },
+
     [types.HANDLE_SAVE_NON_PERSISTENT_DROPDOWN_VALUE]: (state: types.ModuleLocalStore, action: AnyAction) => {
         return { nonPersistentValue: action.payload };
     },
@@ -45,23 +58,7 @@ export default {
         return { firstConnectedDropDownValue: action.payload };
     },
 
-    [types.HANDLE_SAVE_FIRST_CONNECTED_DROPDOWN_OPTIONS]: (state: types.ModuleLocalStore, action: AnyAction) => {
-        return { firstConnectedDropDownOptions: action.payload };
-    },
-    [types.HANDLE_SET_FIRST_CONNECTED_DROPDOWN_OPTIONS_lOADING]: (state: types.ModuleLocalStore, action: AnyAction) => {
-        return { firstConnectedDropDownOptionsLoading: action.payload };
-    },
-
     [types.HANDLE_SAVE_SECOND_CONNECTED_DROPDOWN_VALUE]: (state: types.ModuleLocalStore, action: AnyAction) => {
         return { secondConnectedDropDownValue: action.payload };
-    },
-    [types.HANDLE_SAVE_SECOND_CONNECTED_DROPDOWN_OPTIONS]: (state: types.ModuleLocalStore, action: AnyAction) => {
-        return { secondConnectedDropDownOptions: action.payload };
-    },
-    [types.HANDLE_SET_SECOND_CONNECTED_DROPDOWN_OPTIONS_lOADING]: (
-        state: types.ModuleLocalStore,
-        action: AnyAction,
-    ) => {
-        return { secondConnectedDropDownOptionsLoading: action.payload };
     },
 };
