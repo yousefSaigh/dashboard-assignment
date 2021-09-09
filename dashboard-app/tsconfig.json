@@ -1,26 +1,50 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
-  },
-  "include": [
-    "src"
-  ]
+  "files": ["./typings.d.ts"],
+   "compilerOptions": {
+      "jsx": "react",
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "lib": ["es5", "es2015", "es2016", "dom"],
+      "module": "esnext",
+      "target": "es2015",
+      "allowSyntheticDefaultImports": true,
+      "noImplicitAny": true,
+      "sourceMap": true,
+      "experimentalDecorators": true,
+      "preserveConstEnums": true,
+      "allowJs": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": false,
+      "noImplicitReturns": true,
+      "moduleResolution": "node",
+      "baseUrl": "src"
+   },
+   "awesomeTypescriptLoaderOptions": {
+      "forceConsistentCasingInFileNames": false
+   },
+   "filesGlob": [
+      "typings/index.d.ts",
+      "**/*.d.ts",
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "node_modules/typescript/lib/lib.es6.d.ts"
+
+   ],
+   "exclude": [
+      "target",
+      "dist",
+      "node_modules",
+      "src/__tests__/**/*.test.tsx",
+      "tests",
+      "**/*.test*","**/*.test.tsx"
+   ],
+   "types": [
+      "node",
+      "webpack",
+      "react",
+      "react-dom",
+      "reactstrap",
+      "jest"
+   ],
+   "compileOnSave": true
 }
