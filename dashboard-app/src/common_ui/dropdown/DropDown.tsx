@@ -6,10 +6,19 @@ import { SelectOption } from '../../common_types';
 
 interface SelectProps {
     options: SelectOption[];
-    value?: OptionTypeBase | null;
-    handleSelectDropDownValue: (value: OptionTypeBase | null) => void;
+    currentlySelectedValue?: OptionTypeBase | null;
+    handleSelectDropDownValue: (value: SelectOption | null) => void;
     placeholder?: React.ReactNode;
 }
+const ComponentLayout = styled.div`
+    align-self: center;
+    align-content: center;
+    align-items: center;
+    padding: 15px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+`;
 export const DropDownArrowDiv = styled.div`
     height: 24px;
     width: 24px;
@@ -23,6 +32,7 @@ const ChevronComponent: ComponentType<any> = () => {
 };
 const customSelectorStyle = {
     container: () => ({
+        // margin: 25,
         height: 23,
         width: 259,
         fontFamily: 'Ariel',
@@ -72,12 +82,15 @@ const customSelectorStyle = {
     }),
 };
 export const DropDown: React.FunctionComponent<SelectProps> = (props: SelectProps) => {
-    const { options, value, placeholder, handleSelectDropDownValue } = props;
+    const { options, currentlySelectedValue, placeholder, handleSelectDropDownValue } = props;
 
     function onInputChange(inputValue: OptionTypeBase | null, { action }: ActionMeta<OptionTypeBase>): void {
         switch (action) {
             case 'select-option':
-                handleSelectDropDownValue && handleSelectDropDownValue(inputValue);
+                if (inputValue && inputValue.label && inputValue.value) {
+                    handleSelectDropDownValue &&
+                        handleSelectDropDownValue({ value: inputValue.value, label: inputValue.label });
+                }
                 return;
             default:
                 return;
@@ -85,17 +98,17 @@ export const DropDown: React.FunctionComponent<SelectProps> = (props: SelectProp
     }
 
     return (
-        <div>
+        <ComponentLayout>
             <Select
                 components={{ DropdownIndicator: ChevronComponent }}
                 menuPosition={'fixed'}
                 onChange={onInputChange}
                 options={options}
                 styles={customSelectorStyle}
-                value={value}
+                value={currentlySelectedValue}
                 placeholder={placeholder}
             />
-        </div>
+        </ComponentLayout>
     );
 };
 
