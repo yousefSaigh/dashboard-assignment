@@ -1,0 +1,12 @@
+{
+  "name": "@test-monorepo/service-connected-dropdown",
+  "version": "1.0.0",
+  "main": "./lib/index.js",
+  "module": "./lib/index.js",
+  "types": "./lib/index.js",
+  "license": "MIT",
+   "scripts":{
+    "libbuild": "tsc && tsc --build tsconfig.build.json",
+    "clean-build": "rm -rf lib"
+  }
+}

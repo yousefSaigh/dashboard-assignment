@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { NonPersistentDropDownPath } from '../../constants';
 import { useViewContext } from '../DataPersistence';
 
 interface HomeProps {}

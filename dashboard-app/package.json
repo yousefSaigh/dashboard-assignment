@@ -42,10 +42,16 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start-front": "cd packages/app-central/ && yarn start",
+    "build-types": " cd packages/common_types && yarn libbuild",
+    "build-utils": " cd packages/common_utilities && yarn libbuild",
+    "build-ui": " cd packages/common_ui && yarn libbuild",
+    "build-About": " cd packages/section-about-page && yarn libbuild",
+    "build-np-service": " cd packages/service-non-persistent-demo && yarn libbuild",
+    "build-cd-service": " cd packages/service-connected-dropdown && yarn libbuild",
+    "build-cd-section": " cd packages/section-connected-dropdowns && yarn libbuild",
+    "build-np-section": " cd packages/section-non-persistent-demo && yarn libbuild",
+    "build-all": " yarn build-types && yarn build-utils &&  yarn build-ui && yarn build-np-service && yarn build-np-section && yarn build-cd-service && yarn build-cd-section && yarn build-About"
   },
   "eslintConfig": {
     "extends": [

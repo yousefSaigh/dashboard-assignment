@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+    "exclude": ["node_modules", "lib-esm", "lib", "**/*.story*", "**/*.spec*",
+        "**/*.test*"],
+      "include": [
+        "src"
+      ],
+      "compilerOptions": {
+        "outDir": "lib",
+        "declaration": true
+      }
+}

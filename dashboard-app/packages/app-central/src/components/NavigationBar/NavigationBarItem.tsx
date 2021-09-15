@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { NavigationMenu } from '@test-monorepo/common_types';
 import { CustomLink } from '@test-monorepo/common_ui';
 

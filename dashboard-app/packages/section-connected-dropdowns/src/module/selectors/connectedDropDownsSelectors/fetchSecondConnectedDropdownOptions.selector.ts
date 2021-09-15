@@ -1,0 +1,20 @@
+import { createSelector } from 'reselect';
+import { connectedDropDownServiceDataSelectors } from '../root.selectors';
+import { QueriesStoreWNestError, SelectOption } from '@test-monorepo/common_types';
+import serviceConnectedDropDowns from '@test-monorepo/service-connected-dropdown';
+
+export const fetchSecondConnectedDropDownOptionsDataSelector = createSelector(
+    connectedDropDownServiceDataSelectors,
+    (state): QueriesStoreWNestError<SelectOption[]> =>
+        state[serviceConnectedDropDowns.actionTypes.FETCH_SECOND_CONNECTED_DROPDOWN_OPTIONS],
+);
+
+export const secondConnectedDropDownOptionsLoading = createSelector(
+    fetchSecondConnectedDropDownOptionsDataSelector,
+    (state): boolean => state.loading,
+);
+
+export const secondConnectedDropDownOptions = createSelector(
+    fetchSecondConnectedDropDownOptionsDataSelector,
+    (state): SelectOption[] | null => state.data,
+);

@@ -2,13 +2,15 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { DynamicModuleLoader } from 'redux-dynamic-modules';
 import styled from 'styled-components';
-import { AboutPage, ConnectedDropDowns, NavigationBar } from './components';
+import { NavigationBar, AboutPage } from './components';
 import { DataPersistence } from './components/DataPersistence';
 import { Home } from './components/Home';
-import { NonPersistenceDemo } from './components/NonPersistentDemo';
+import { NonPersistentDemoScreen } from '@test-monorepo/section-non-persistent-demo';
+import { ConnectedDropDowns } from '@test-monorepo/section-connected-dropdowns';
+
 import { AboutPagePath, ConnectedDropDownPath, HomeDashBoardPath, NonPersistentDropDownPath } from './constants';
-import { getUsersModule } from './module';
-import { rootModule } from './module/store';
+// import { getUsersModule } from './module';
+import { rootModule } from './store';
 
 const AppStyle = styled.div`
     align-self: center;
@@ -21,7 +23,7 @@ const AppStyle = styled.div`
 
 function App() {
     return (
-        <DynamicModuleLoader modules={[rootModule, getUsersModule]}>
+        <DynamicModuleLoader modules={[rootModule]}>
             <AppStyle>
                 <NavigationBar
                     navigationMenus={[
@@ -37,7 +39,7 @@ function App() {
                             <Home />
                         </Route>
                         <Route exact path={NonPersistentDropDownPath.link}>
-                            <NonPersistenceDemo />
+                            <NonPersistentDemoScreen />
                         </Route>
                         <Route exact path={ConnectedDropDownPath.link}>
                             <ConnectedDropDowns />
